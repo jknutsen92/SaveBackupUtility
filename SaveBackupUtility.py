@@ -11,10 +11,11 @@ class SaveChangedHandler(FileSystemEventHandler):
         self._backup_dir = backup_dir
 
     def on_modified(self, event):
-        save_path = Path(event.src_path)
-        unique_name = f"{save_path.name}_{str(uuid4())}"
-        copyfile(save_path, f"{self._backup_dir}/{unique_name}")
-        print(f"{save_path.name} updated, making backup {unique_name} in {self._backup_dir}")
+        if not event.src_path == "":
+            save_path = Path(event.src_path)
+            unique_name = f"{save_path.name}_{str(uuid4())}"
+            copyfile(save_path, f"{self._backup_dir}/{unique_name}")
+            print(f"{save_path.name} updated, making backup {unique_name} in {self._backup_dir}")
         
 
 if __name__ == "__main__":
@@ -38,7 +39,7 @@ if __name__ == "__main__":
 
     event_handler = SaveChangedHandler(backup_dir)
     observer = Observer()
-    observer.schedule(event_handler, path=save_path)
+    observer.schedule(event_handler, path=save_path, recursive=False)
     observer.start()
     print(f"Now watching {save_path} for updates")
 
