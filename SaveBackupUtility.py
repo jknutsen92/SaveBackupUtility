@@ -4,6 +4,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from shutil import copyfile
 from uuid import uuid4
+from datetime import datetime
 import time
 
 if __name__ == "__main__":
@@ -33,6 +34,6 @@ if __name__ == "__main__":
             if prev_modified_time < save_path.stat().st_mtime:
                 unique_name = f"{save_path.name}_{str(uuid4())}"
                 copyfile(save_path, f"{backup_dir}/{unique_name}")
-                print(f"{save_path.name} updated, making backup {unique_name} in {backup_dir}")
+                print(f"{datetime.now()}: {save_path.name} updated, making backup {unique_name} in {backup_dir}")
     except KeyboardInterrupt:
         exit()
