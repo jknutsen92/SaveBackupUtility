@@ -1,6 +1,7 @@
 from sys import argv, exit
 from pathlib import Path
 from shutil import copyfile
+from natsort import natsorted
 
 if __name__ == "__main__": 
     if len(argv) != 3:
@@ -17,7 +18,7 @@ if __name__ == "__main__":
     save_file_name = target_path.name
     # Load save directories, order by name
     try:
-        for backup_dir in backups_path.iterdir(): 
+        for backup_dir in natsorted(backups_path.iterdir(), key=str):
             print(f"Next file to swap: {backup_dir}/{save_file_name}")
             input("Press enter to continue..")
             print(f"Backing up {target_path}.prev")
