@@ -28,3 +28,6 @@ if __name__ == "__main__":
             print("Files swapped")
     except KeyboardInterrupt:
         exit()
+    except FileNotFoundError:
+        print(f"ERROR: No save file {save_file_name} found in {backup_dir}")
+        continue
